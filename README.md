@@ -78,3 +78,7 @@ Cheatcodes are not allowed of course :)
 ### Tools
 
 - [Solidity Visual Developer](https://marketplace.visualstudio.com/items?itemName=tintinweb.solidity-visual-auditor)
+
+## Thanks!
+
+![congratulations-evangelion](https://github.com/user-attachments/assets/1e51fb31-82d6-48c1-a5f7-25d330bf89b3)
