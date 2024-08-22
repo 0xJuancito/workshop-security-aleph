@@ -48,6 +48,8 @@ forge test --mt test_Depositor -vv
 
 Challenges can be found in the [/test](./test) folder.
 
+Your goal is to make all tests PASS ✨
+
 You'll find the tags `START OF SOLUTION` and `END OF SOLUTION` on each test file. You should write your solution there.
 
 You may create and instantiate new contracts to help you with the solution, as long as the `new Contract()` is instantiated and called between those tags.
