@@ -3,14 +3,16 @@ pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
 import {Vault} from "../src/03-Flashloan.sol";
+import {Attacker} from "../src/AttackerContract/FlashloanAttack.sol";
 
 contract CallerTest is Test {
     Vault public vault;
+    address user;
 
     function setUp() public {
         vault = new Vault();
 
-        address user = makeAddr("USER");
+        user = makeAddr("USER");
         hoax(user);
         vault.deposit{value: 10 ether}();
     }
@@ -23,8 +25,9 @@ contract CallerTest is Test {
 
         // START OF SOLUTION
         // (You can create any additional contract if needed)
-
-        
+        Attacker attackerContract = new Attacker(address(vault));
+        attackerContract.attack();
+        attackerContract.withdraw();
 
         // END OF SOLUTION
 
