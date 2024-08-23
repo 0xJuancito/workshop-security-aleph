@@ -56,7 +56,7 @@ You may create and instantiate new contracts to help you with the solution, as l
 
 Cheatcodes are not allowed of course :)
 
-**Solutions can be found in the `solutions` branch`**
+**Solutions can be found in the `solutions` branch**
 
 ```
 git checkout -b solutions
