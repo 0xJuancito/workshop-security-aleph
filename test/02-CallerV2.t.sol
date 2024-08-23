@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
 import {Vault} from "../src/02-CallerV2.sol";
+import {Attacker} from "../src/AttackerContracts/02-Attacker.sol";
 
 contract CallerV2Test is Test {
     Vault public vault;
@@ -23,8 +24,8 @@ contract CallerV2Test is Test {
 
         // START OF SOLUTION
         // (You can create any additional contract if needed)
-
-        
+        Attacker attackerContract = new Attacker(address(vault));
+        attackerContract.attack{value: 0.5 ether}();
 
         // END OF SOLUTION
 
