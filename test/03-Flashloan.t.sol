@@ -2,13 +2,15 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
-import {Vault} from "../src/03-Flashloan.sol";
+import {Vault, Attacker} from "../src/03-Flashloan.sol";
 
 contract CallerTest is Test {
     Vault public vault;
+    Attacker public attackerContract;
 
     function setUp() public {
         vault = new Vault();
+        attackerContract = new Attacker(address(vault));
 
         address user = makeAddr("USER");
         hoax(user);
@@ -16,14 +18,11 @@ contract CallerTest is Test {
     }
 
     function test_Flashloan() public {
-        address attacker = makeAddr("ATTACKER");
-        vm.deal(attacker, 1 ether);
-
-        vm.startPrank(attacker);
-
         // START OF SOLUTION
         // (You can create any additional contract if needed)
-
+        vm.deal(address(attackerContract), 1 ether);
+        attackerContract.attack();
+        attackerContract.withdraw();
         
 
         // END OF SOLUTION
@@ -31,7 +30,7 @@ contract CallerTest is Test {
         uint256 vaultBalance = address(vault).balance;
         assertEq(vaultBalance, 0, "Vault still has balance");
 
-        uint256 attackerBalance = address(attacker).balance;
+        uint256 attackerBalance = address(attackerContract).balance;
         assertEq(attackerBalance, 11 ether, "Attacker didn't get the assets");
     }
 }
